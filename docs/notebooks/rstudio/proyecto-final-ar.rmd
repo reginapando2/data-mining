@@ -3,10 +3,11 @@ title: "Proyecto Final (Association Rules)"
 author: "Profesor Marciano A. Moreno D.C."
 date: "27 de mayo de 2021"
 output:
-  html_document:
-    df_print: paged
   pdf_document:
     latex_engine: xelatex
+  word_document: default
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
@@ -72,21 +73,22 @@ Las actividades de codificación estarán identificadas con la clave **CODE-nn**
 Implementa la operación de adición de los enteros 2 y 3
 ```{r}
 #TODO: Implementa la operación de adición con los enteros: 2 y 3
+2 + 3
 
 ```
 
 **Notas en markdown**: El alumno escribirá las notas requeridas en las secciones anotadas con la clave **NOTE-nn**
 
 
-Escribe la fecha actual (**NOTE-01**): <FECHA>
+Escribe la fecha actual (**NOTE-01**): 29 de mayo del 2021. 
 
 ## Personalización del notebook
 
 **CODE-02** Datos generales
 Asigna tus datos a las siguientes variables:
 ```{r}
-NOMBRE_COMPLETO = "Nombre Apellidos"
-DIGITOS_MATRICULA = 0
+NOMBRE_COMPLETO = "Regina De Orta Pando"
+DIGITOS_MATRICULA = 01375217
 ```
 
 ## Instalación y carga de paquetes base
@@ -146,13 +148,11 @@ Considera a `smallbasket` como la siguiente lista de transacciones, implementa e
 
 Responde a las siguientes preguntas de smallbasket:
 
-- Cantidad de transacciones (n) (**NOTE-02**): 
-- Frecuencia absoluta del item {beer} (**NOTE-03**): 
-- Frecuencia absoluta del item {nuts} (**NOTE-04**): 
-- Frecuencia absoluta del itemset {beer, nuts} (**NOTE-05**): 
-- Support del item {beer} (**NOTE-06**): 
-- Support del itemset {beer, nuts} (**NOTE-07**): 
-
+- Cantidad de transacciones (n) (**NOTE-02**): Mi respuesta es 5 transacciones. 
+- Frecuencia absoluta del item {beer} (**NOTE-03**): Mi respuesta es 3. 
+- Frecuencia absoluta del item {nuts} (**NOTE-04**): Mi respuesta es 3. 
+- Frecuencia absoluta del itemset {beer, nuts} (**NOTE-05**): Mi respuesta es 1. - Support del item {beer} (**NOTE-06**): Mi respuesta es 0.6 o 60%. 
+- Support del itemset {beer, nuts} (**NOTE-07**): Mi respuesta es 0.2 o 20%. 
 
 Implementaremos a `smallbasket` en R por medio de `list`.
 
@@ -178,7 +178,7 @@ Crea un objeto `smalltx` de tipo `arules::transactions` a partir de la lista `sm
 **CODE-05** Crea una variable `smalltx` que sea un objeto `transactions` a partir de los datos en `smallbasket`.
 ```{r}
 #TODO: Modifica el código de abajo para transformar smallbaskets a un objeto de tipo transactions
-smalltx <- as(smallbasket, "list")
+smalltx <- as(smallbasket, "transactions")
 ```
 
 Verifica que smalltx sea de tipo transactions.
@@ -189,11 +189,10 @@ Implementa en el chunk de abajo el código para visualizar la información gener
 ```{r}
 summary(smalltx)
 ```
-
-- Número de renglones (**NOTE-08**): 
-- Número de columnas (**NOTE-09**): 
-- Densidad de la matriz (**NOTE-10**): 
-- Media aritmética del número de elementos (itemsets) por transacción (**NOTE-11**):
+- Número de renglones (**NOTE-08**): hay 5 renglones.  
+- Número de columnas (**NOTE-09**): hay 6 columnas. 
+- Densidad de la matriz (**NOTE-10**): 17/30 = 0.5666667 
+- Media aritmética del número de elementos (itemsets) por transacción (**NOTE-11**): 3.4
 
 Visualiza la matriz de items y transacciones.
 ```{r}
@@ -220,10 +219,10 @@ smallrules <- apriori(smalltx)
 
 Menciona los valores por omisión de algoritmo apriori de la librería arules:
 
-- support (mínimo) (**NOTE-12**): 
-- confidence (mínimo) (**NOTE-13**):
-- items (máximo) (**NOTE-14**):
-- tiempo de verificación de subsets (máximo) (**NOTE-15**):
+- support (mínimo) (**NOTE-12**): 0.1
+- confidence (mínimo) (**NOTE-13**): 0.8
+- items (máximo) (**NOTE-14**): 10
+- tiempo de verificación de subsets (máximo) (**NOTE-15**): 5 segundos
 
 
 Invoca `summary()` con `smallrules`, consulta los resultados en **R Console** y responde a las preguntas de abajo. 
@@ -234,22 +233,18 @@ Tip: Para mayor legibilidad emplea el comando **Show in new window**
 summary(smallrules)
 ```
 
-- Cantidad de reglas producidas (**NOTE-16**):
-- Media aritmética de support (**NOTE-17**):
-- Media aritmética de confidence (**NOTE-18**): 
+- Cantidad de reglas producidas (**NOTE-16**): 46 reglas.
+- Media aritmética de support (**NOTE-17**): 0.2478. 
+- Media aritmética de confidence (**NOTE-18**):0.9957
 
 Inspecciona `smallrules` y responde a las preguntas a continuación.
 ```{r}
 inspect(smallrules)
 ```
-
-
-- ¿Cuál es la interpretación de la regla `{} => {diapers}` en la que se aprecia la ausencia del LHS? (**NOTE-19**):
-- Calcula el valor de la métrica support para la regla `{beer} => {nuts}` (**NOTE-20**): 
-- Calcula el valor de la métrica confidence para la regla `{beer} => {nuts}` (**NOTE-21**): 
-- ¿Por qué no aparece listada la regla `{beer} => {nuts}`? (**NOTE-22**): 
-
-
+- ¿Cuál es la interpretación de la regla `{} => {diapers}` en la que se aprecia la ausencia del LHS? (**NOTE-19**): hay un lift de 1 indicando que x y y son independientes. Esto quiere decir que la regla no representa un patrón real y por eso no existe un item en lhs. 
+- Calcula el valor de la métrica support para la regla `{beer} => {nuts}` (**NOTE-20**): Mi respuesta es 0.2 o 20%. 
+- Calcula el valor de la métrica confidence para la regla `{beer} => {nuts}` (**NOTE-21**): 1/3 = 0.333333
+- ¿Por qué no aparece listada la regla `{beer} => {nuts}`? (**NOTE-22**): no aparece porque para el algoritmo apriori el confidence (mínimo) es de 0.8 y en este caso vemos un confidence muy bajo de 0.33333 por lo que el mismo algoritmo descarta la regla. 
 
 ## MSSD: El dataset de sesiones de streaming
 [The Music Streaming Sessions Dataset](https://research.atspotify.com/publications/the-music-streaming-sessions-dataset-short-paper/) fue desarrollado por Spotify para promover la investigación en modelado de escucha por parte de usuarios, interacciones en streaming, recuperación de información musical (MIR, por sus siglas en inglés) y recomendaciones con base a sesiones secuenciales.
@@ -291,9 +286,9 @@ length(unique(mssddf$track_id_clean))
 
 Consulta el paper [The Music Streaming Sessions Dataset](https://arxiv.org/abs/1901.09851) y responde a las siguientes preguntas:
 
-- ¿Cuál es el propósito de `session id`? (**NOTE-23**): 
-- ¿Cuál es el propósito de `track id`? (**NOTE-24**):
-- ¿Consideras que las otras columnas del dataset son aplicables para análisis por medio de reglas de asociación, justifica tu respuesta? (**NOTE-25**): 
+- ¿Cuál es el propósito de `session id`? (**NOTE-23**): es el "unique session identifier". Dentro del Dataset se incluyen 160 millones de sesiones que tienen longitudes de 10 a 20 interacciones. Las sesiones se definen como un periodo de escucha interrumpida por no más de 60 segundos entre playbacks consecutivos. Su propósito es diferenciar cada una de las sesiones en el Dataset. 
+- ¿Cuál es el propósito de `track id`? (**NOTE-24**): es el "unique track identifier". Lo que hace es identificar una canción particular. 
+- ¿Consideras que las otras columnas del dataset son aplicables para análisis por medio de reglas de asociación, justifica tu respuesta? (**NOTE-25**): Considero que si pues hay variables como skip 1, hour of the day, not skipped, session length, entre otras, que permiten hacer reglas interesantes para ver por ejemplo si a ciertas horas del día existe una menor cantidad de "skips", identificar lo que los usuarios escuchan por horas, etc. También hay variables como reason end y context type que permiten entender los patrones de comportamiento de los usuarios según el contexto. Tecnicamente lo que diría es que las variables se prestan para un análisis amplio y profundo que podría llegar a conclusiones importantes. 
 
 Inspecciona la estructura de `y`, el dataset preparado.
 ```{r}
@@ -320,9 +315,9 @@ summary(mssdtx)
 ```
 Responde a las siguientes preguntas:
 
-- ¿Cuál es el ID y frecuencia absoluta de la sesión más frecuente? (**NOTE-26**): 
-- ¿Cuántos items tiene el itemset con mayor número de ocurrencias en la lista element length distribution? (**NOTE-27**): 
-- En el contexto de este dataset con información de sesiones de streaming, ¿cuál es la interpretación de la media aritmética? (**NOTE-28**): 
+- ¿Cuál es el ID y frecuencia absoluta de la sesión más frecuente? (**NOTE-26**): la sesión más frecuente tiene un ID de t_bacf06d3-9185-4183-84ea-ff0db51475ce y su frecuencia absoluta es de 883. 
+- ¿Cuántos items tiene el itemset con mayor número de ocurrencias en la lista element length distribution? (**NOTE-27**): 1587
+- En el contexto de este dataset con información de sesiones de streaming, ¿cuál es la interpretación de la media aritmética? (**NOTE-28**): la media nos dice que las sesiones promedio de un usuario son 14.61. Recordemos que las sesiones se definen como un periodo de escucha interrumpida por no más de 60 segundos entre playbacks consecutivos, por lo que un usuario en promedio hace 15 de estas. 
 
 
 Ejecuta el algoritmo apriori con los parámetros por omisión.
@@ -331,8 +326,8 @@ rules <- apriori(mssdtx)
 summary(rules)
 ```
 
-- ¿Qué factores están asociados con que el algoritmo `apriori` con parámetros por omisión no haya producido ninguna regla de asociación, justifica tu respuesta? (**NOTE-29**):
-- ¿Qué riesgos identificas con la asignación de valores muy bajos en los parámetros de  `support` y `confidence` al invocar el algoritmo `apriori`?
+- ¿Qué factores están asociados con que el algoritmo `apriori` con parámetros por omisión no haya producido ninguna regla de asociación, justifica tu respuesta? (**NOTE-29**): el algoritmo apriori toma en consideración los itemsets que cumplen con cierto nivel de support y de confidence, dejando los que no cumplen fuera. Esos itemsets se convierten en reglas de asociación y en este caso debido a los parámetros por omisión de support y confidence, no se arrojó ninguna regla. 
+- ¿Qué riesgos identificas con la asignación de valores muy bajos en los parámetros de  `support` y `confidence` al invocar el algoritmo `apriori`? Si support y confidence tienen valores muy bajos eso significa que se analizaría más información pero no necesariamente la representativa o importante haciendo más complejo el análisis sin tener una discriminación sobre el universo de reglas posibles. Lo anterior ayudaría a descubrir más reglas pero menos representativas, por ello es que el valor de support y confidence debe estar equilibrado buscando que por un lado sí se encuentren reglas (que los valores de confidence y support no sean tan elevados) y por otro, que las reglas que se encuentren tengan valor para el negocio (que los valores de confidence y support no sean tan bajos). Adicionalmente, el riesgo de que sean valores bajos es que quien analice la base de datos puede tardar mucho más en encontrar conclusiones significativas (más por el volumen de datos que hoy en día se maneja). 
 
 **CODE-07** Invoca `apriori`
 Configura la invocación a `apriori` para producir al menos 220 reglas de asociación para ello puedes considerar el uso de los parámetros `support` y `confidence` como se muestra a continuación
@@ -340,14 +335,11 @@ Configura la invocación a `apriori` para producir al menos 220 reglas de asocia
 
 ```{r}
 #TODO: Configura las variables SUPP y CONF para generar al menos 250 reglas de asociación
-SUPP = 0.1 
-CONF = 0.8
+SUPP = 0.0247
+CONF = 0.013
 rules <- apriori(mssdtx, parameter = list(support = SUPP, confidence = CONF))
 summary(rules)
 ```
-
-
-
 
 ```{r}
 try(
@@ -368,7 +360,7 @@ Graba y publica un video (puede ser un video publicado de forma privada en YouTu
 - Diferencia entre los conceptos de transacciones y reglas.
 - Estrategia seguida para descubrir las reglas de interés en el dataset MSSD de este proyecto.
 - Interpretación de la primera regla listada en el chunk anterior con el código `inspect(head(sort(rules, by = "lift")))` aclarando qué significan los datos listados en lhs, rhs y la interpretación de todas sus métricas.
-- Provee el enlace al video aquí: **NOTE-30**
+- Provee el enlace al video aquí: **NOTE-30** Este es el link a mi video: https://www.youtube.com/watch?v=l6X3nfc-Sc4
 
 ## Entrega del proyecto final
 
@@ -379,7 +371,7 @@ Graba y publica un video (puede ser un video publicado de forma privada en YouTu
 - Guarda el archivo de markup (rmd) de forma local.
 - Genera el PDF del notebook por medio del comando Knit (ya sea directo a PDF o Word y posteriormente Save As/PDF).
 - No se recibirán proyectos en formato PDF con texto libre y capturas de pantalla.
-- Publica el código de tu notebook a tu respositorio de GitHub por medio de los comandos `commit` y `push`.
+- Publica el código de tu notebook a tu repositorio de GitHub por medio de los comandos `commit` y `push`.
 - Envía el documento PDF por medio de mensaje personal a @marciano en Slack `naylacommunity` junto con el enlace a tu repositorio de GitHub.
 
 **Fecha límite de entrega: Sábado 5 de junio al cierre del día.**
